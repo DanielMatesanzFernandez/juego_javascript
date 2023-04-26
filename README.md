@@ -1,1 +1,2 @@
 # juego_javascript
+El juego consta de que el usuario controla una pelota con wasd y va racogiendo cuadrados que vienen del lado derecho de la pantalla dándole 1 punto al recoger uno y restándole uno por cada cuadrado que llegue el final, teniendo un tiempo límite

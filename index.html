@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        .elemento {
+            width: 30px;
+            height: 30px;
+            background-color: red;
+        }
+
+        .jugador {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: blue;
+            border-radius: 100%;
+        }
+    </style>
+        <div id="jugador" class="jugador"></div>
+
+    <script>
+        let posicionJugador = { x: 100, y: 100 };
+        
+        function crearElemento() {
+            const elemento = document.createElement('div');
+            elemento.classList.add('elemento');
+            elemento.style.position = 'absolute';
+            elemento.style.top = `${Math.random() * 70}%`;
+            elemento.style.left = `${window.innerWidth - 30}px`;
+            document.body.appendChild(elemento);
+            setInterval(()=>{
+                const left = parseFloat(elemento.style.left);
+            if (elemento.offsetLeft == 0) {
+                elemento.remove()
+
+            } else {
+                elemento.style.left = `${left - 1}px`;
+            }
+            }, 1)   
+        }
+
+        setInterval(crearElemento, 1000)
+
+        moviendoW = false
+        moviendoS = false
+        moviendoA = false
+        moviendoD = false
+
+        document.addEventListener('keydown', (evento) => {
+            switch (evento.key) {
+                case 'w':
+                    if (!moviendoW) {
+                        moviendoW = true
+                        intervaloW = setInterval(() => {
+                            posicionJugador.y -= 1;
+                        }, 2);
+                    }
+                    break;
+                case 's':
+                    if (!moviendoS) {
+                        moviendoS = true
+                        intervaloS = setInterval(() => {
+                            posicionJugador.y += 1;
+                        }, 2);
+                    }
+                    break;
+                case 'a':
+                    if (!moviendoA) {
+                        moviendoA = true
+                        intervaloA = setInterval(() => {
+                            posicionJugador.x -= 1;
+                        }, 2);
+                    }
+                    break;
+                case 'd':
+                    if (!moviendoD) {
+                        moviendoD = true
+                        intervaloD = setInterval(() => {
+                            posicionJugador.x += 1;
+                        }, 2);
+                    }
+                    break;
+
+            }
+        });
+
+        document.addEventListener('keyup', (evento) => {
+            switch (evento.key) {
+                case 'w':
+                    clearInterval(intervaloW);
+                    moviendoW = false
+                    break;
+                case 's':
+                    clearInterval(intervaloS);
+                    moviendoS = false
+                    break;
+                case 'a':
+                    clearInterval(intervaloA);
+                    moviendoA = false
+                    break;
+                case 'd':
+                    clearInterval(intervaloD);
+                    moviendoD = false
+                    break;
+
+
+            }
+        })
+        function actualizarJugador() {
+            const jugador = document.getElementById('jugador');
+            jugador.style.left = `${posicionJugador.x}px`;
+            jugador.style.top = `${posicionJugador.y}px`;
+        }
+        function animar() {
+            // ...
+            actualizarJugador();
+            detectarColisiones();
+            requestAnimationFrame(animar);
+        }
+        function detectarColisiones() {
+            const jugador = document.getElementById('jugador');
+            const radioJugador = jugador.offsetWidth / 2;
+            const centroJugador = {
+                x: posicionJugador.x + radioJugador,
+                y: posicionJugador.y + radioJugador,
+            };
+
+            const elementos = document.querySelectorAll('.elemento');
+            elementos.forEach((elemento) => {
+                const radioElemento = elemento.offsetWidth / 2;
+                const centroElemento = {
+                    x: elemento.offsetLeft + radioElemento,
+                    y: elemento.offsetTop + radioElemento,
+                };
+
+                const distancia = Math.sqrt(
+                    Math.pow(centroJugador.x - centroElemento.x, 2) +
+                    Math.pow(centroJugador.y - centroElemento.y, 2)
+                );
+
+                if (distancia < radioJugador + radioElemento) {
+                    alert("colision")
+                }
+            });
+        }
+        animar()
+    </script>
+</body>
+
+</html>
