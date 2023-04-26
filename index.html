@@ -23,28 +23,51 @@
             background-color: blue;
             border-radius: 100%;
         }
+
+        #puntosCont {
+            position: absolute;
+        }
+
+        #juego {
+            position: absolute;
+            width: 1000px;
+            height: 500px;
+            background-color: black;
+            left: 25%;
+            top: 300px;
+        }
     </style>
+    <div id="puntosCont">Puntuacion: <span id="puntos">0</span></div>
+    <div id="juego">
+
         <div id="jugador" class="jugador"></div>
+    </div>
 
     <script>
         let posicionJugador = { x: 100, y: 100 };
-        
+        juego = document.getElementById("juego")
+        puntuacion = document.getElementById("puntos")
+        puntos = 0;
+
         function crearElemento() {
             const elemento = document.createElement('div');
             elemento.classList.add('elemento');
             elemento.style.position = 'absolute';
-            elemento.style.top = `${Math.random() * 70}%`;
-            elemento.style.left = `${window.innerWidth - 30}px`;
-            document.body.appendChild(elemento);
-            setInterval(()=>{
+            elemento.style.top = `${Math.random() * (juego.offsetHeight - 30)}px`;
+            elemento.style.left = `${juego.offsetWidth - 30}px`;
+            juego.appendChild(elemento);
+            let borrado = false
+            setInterval(() => {
                 const left = parseFloat(elemento.style.left);
-            if (elemento.offsetLeft == 0) {
-                elemento.remove()
-
-            } else {
-                elemento.style.left = `${left - 1}px`;
-            }
-            }, 1)   
+                if (elemento.offsetLeft == 0 && elemento) {
+                    elemento.remove()
+                    puntos -= 1
+                    puntuacion.textContent = puntos
+                    borrado = true
+                } else {
+                    elemento.style.left = `${left - 1}px`;
+                }
+            }, 1)
         }
 
         setInterval(crearElemento, 1000)
@@ -60,6 +83,11 @@
                     if (!moviendoW) {
                         moviendoW = true
                         intervaloW = setInterval(() => {
+                            if (posicionJugador.y == 0) {
+                                clearInterval(intervaloW)
+                                moviendoW = false;
+                                return
+                            }
                             posicionJugador.y -= 1;
                         }, 2);
                     }
@@ -68,6 +96,11 @@
                     if (!moviendoS) {
                         moviendoS = true
                         intervaloS = setInterval(() => {
+                            if (posicionJugador.y == juego.offsetHeight - 10) {
+                                clearInterval(intervaloS)
+                                moviendoS = false;
+                                return
+                            }
                             posicionJugador.y += 1;
                         }, 2);
                     }
@@ -76,6 +109,11 @@
                     if (!moviendoA) {
                         moviendoA = true
                         intervaloA = setInterval(() => {
+                            if (posicionJugador.x == 0) {
+                                clearInterval(intervaloA)
+                                moviendoA = false;
+                                return
+                            }
                             posicionJugador.x -= 1;
                         }, 2);
                     }
@@ -84,11 +122,15 @@
                     if (!moviendoD) {
                         moviendoD = true
                         intervaloD = setInterval(() => {
+                            if (posicionJugador.x == juego.offsetWidth - 10) {
+                                clearInterval(intervaloD)
+                                moviendoD = false;
+                                return
+                            }
                             posicionJugador.x += 1;
                         }, 2);
                     }
                     break;
-
             }
         });
 
@@ -147,7 +189,9 @@
                 );
 
                 if (distancia < radioJugador + radioElemento) {
-                    alert("colision")
+                    puntos += 1
+                    puntuacion.textContent = puntos
+                    elemento.remove();
                 }
             });
         }
