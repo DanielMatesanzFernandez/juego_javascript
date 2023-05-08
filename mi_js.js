@@ -1,49 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="mi_css.css">
-</head>
-
-<body>
-    <div id="normasCont">
-        <div id="normas">
-            <h1>Bienvenido al capturabloques</h1>
-            <br><br>
-            <h3>Instrucciones:</h3>
-            <br>
-            <p>Eres una bola azul y tienes que capturar los bloques rojos que te vienen desde el lado derecho.
-                <br><br>
-                Por cada cuadrado capturado sumas 1 punto y por cada cuadrado que llegue hasta el final y no captures se te restará 1 punto
-            </p>
-            <br><br><br>
-            <h4>¿Cuantos segundos quieres jugar?</h4>
-            <br>
-            <div>
-                <label for="segundos">Segundos:</label>
-                <input type="number" name="segundos" id="segundos">
-                <input type="button" value="Jugar" onclick="iniciar()">
-            </div>
-        </div>
-    </div>
-    <div id="juego">
-        <div id="puntosCont">Puntuacion: <span id="puntos">5</span></div>
-
-        <div id="jugador" class="jugador"></div>
-        <div id="contador">0</div>
-    </div>
-    <script>
-        normasCont = document.getElementById("normasCont")
-        let posicionJugador = { x: 100, y: 100 };
+let posicionJugador = { x: 100, y: 100 };
         juego = document.getElementById("juego")
         puntuacion = document.getElementById("puntos")
-        contador = document.getElementById("contador")
         puntos = 0;
         puntosFinales = 0;
+        iniciar()
 
         function crearElemento() {
             const elemento = document.createElement('div');
@@ -159,17 +119,11 @@
         function animar() {
             // ...
             actualizarJugador();
-            detectarColisiones().then(elemento => {
-                puntos += 1
-                    puntuacion.textContent = puntos
-                    elemento.borrado = true
-                    elemento.remove();
-            });
+            detectarColisiones();
             animacion = requestAnimationFrame(animar);
         }
         function detectarColisiones() {
-           return new Promise((resolve, reject) => {
-             const jugador = document.getElementById('jugador');
+            const jugador = document.getElementById('jugador');
             const radioJugador = jugador.offsetWidth / 2;
             const centroJugador = {
                 x: posicionJugador.x + radioJugador,
@@ -190,40 +144,21 @@
                 );
 
                 if (distancia < radioJugador + radioElemento) {
-                    resolve(elemento);
+                    puntos += 1
+                    puntuacion.textContent = puntos
+                    elemento.borrado = true
+                    elemento.remove();
                 }
             });
-           })
         }
 
         function iniciar(){
-            segundosInt = document.getElementById("segundos").value
-            contador.textContent = segundosInt
-            normasCont.style.display = "none"
-            puntuacion.textContent = 0
-            posicionJugador = { x: 100, y: 100 }
-            contadorFunc()
             animar()
             creandoElementos = setInterval(crearElemento, 1000)
         }
 
         function parar(){
             puntosFinales = puntos
-            alert("conseguiste una puntuacion de: " + puntosFinales)
             clearInterval(creandoElementos)
             cancelAnimationFrame(animar)
         }
-        function contadorFunc(){
-            contInt = setInterval(()=>{
-                tiempoRest = contador.textContent
-                if(tiempoRest <= 0){
-                    clearInterval(contInt)
-                    parar();
-                }else
-                    contador.textContent = tiempoRest - 1
-            }, 1000)
-        }
-    </script>        
-</body>
-
-</html>
