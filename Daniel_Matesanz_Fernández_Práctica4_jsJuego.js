@@ -201,8 +201,9 @@ function contadorFunc() {
 
 //funcion para ver las puntuaciones más altas
 function puntuacionesAltas() {
-    if (localStorage.length == 1)
+    if(!localStorage.getItem("puntuaciones")){
         localStorage.setItem("puntuaciones", JSON.stringify([]))
+    }        
 
     puntuaciones = JSON.parse(localStorage.getItem("puntuaciones"))
     puntuacionActual = { puntos: puntosFinales, tiempo: segundosInt }
@@ -242,7 +243,7 @@ function pantallaAcabado() {
 //funcion para volver a jugar
 document.getElementById("volverJugar").addEventListener("click", event => {
     event.stopPropagation()
-    window.location.replace("inicio.html")
+    window.location.replace("Daniel_Matesanz_Fernández_Práctica4_inicio.html")
 })
 
 //quitar y poner opacidad el el contenedor del final

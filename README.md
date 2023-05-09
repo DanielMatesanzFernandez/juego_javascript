@@ -1,6 +1,8 @@
 # juego_javascript
 El juego consta de que el usuario controla una pelota con wasd y va racogiendo cuadrados que vienen del lado derecho de la pantalla dándole 1 punto al recoger uno y restándole uno por cada cuadrado que llegue el final, teniendo un tiempo límite
 
+El archivo que se ejecuta primero es Daniel_Matesanz_Fernández_Práctica4_inicio.html
+
 elementos rúbrica:
     Animaciones:
         setInterval y clearInterval--> para la creación y el movimiento de los cuadrados, para el movimiento del jugador y para gestionar el contador
