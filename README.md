@@ -13,4 +13,4 @@ elementos rúbrica:
         para enviar la cantidad de segundos de la página de inicio a la del juego y para guardar las 5 mejores puntuaciones
 
     Eventos:
-        con keyDown y keyUp para el movimiento del jugador, para que sea más fluido y en la pantalla del final con click para cambiar la opacidad del fondo y para mostrar las 5 mejores puntuaciones, en este último está implementado el stopPropagation para que al pulsarlo no se cambie la opacidad al igual que pasa con el boton de volver a jugar
+        con keyDown y keyUp para el movimiento del jugador, para que sea más fluido y en la pantalla del final con click para cambiar la opacidad del fondo y para mostrar las 5 mejores puntuaciones, en este último está             implementado el stopPropagation para que al pulsarlo no se cambie la opacidad al igual que pasa con el boton de volver a jugar
